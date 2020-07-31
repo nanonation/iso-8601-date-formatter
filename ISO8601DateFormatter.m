@@ -53,7 +53,7 @@ static NSCache *timeZonesByOffset;
 - (NSCalendar *) makeCalendarWithDesiredConfiguration {
 	NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
 	calendar.firstWeekday = 2; //Monday
-	calendar.timeZone = [NSTimeZone defaultTimeZone];
+	calendar.timeZone = [NSTimeZone localTimeZone];
 	return calendar;
 }
 
@@ -641,7 +641,8 @@ static BOOL is_leap_year(NSUInteger year);
 	if (components == nil)
 		return nil;
 
-	if (!timeZone) timeZone = self.defaultTimeZone;
+    if (!timeZone) timeZone = self.defaultTimeZone;
+    if (!timeZone) timeZone = [NSTimeZone localTimeZone];
 
 	parsingCalendar.timeZone = timeZone;
 	if ([components respondsToSelector:@selector(setTimeZone:)])
@@ -687,7 +688,7 @@ static BOOL is_leap_year(NSUInteger year);
 
 - (NSString *) stringFromDate:(NSDate *)date {
 	NSTimeZone *timeZone = self.defaultTimeZone;
-	if (!timeZone) timeZone = [NSTimeZone defaultTimeZone];
+	if (!timeZone) timeZone = [NSTimeZone localTimeZone];
 	return [self stringFromDate:date timeZone:timeZone];
 }
 
